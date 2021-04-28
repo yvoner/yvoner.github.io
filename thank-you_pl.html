@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pl" itemscope="" itemtype="https://schema.org/Webpage">
+
+<head>
+
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<title>Cyber Crime Lawyers</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+	<link rel="shortcut icon" href="./assets/favicon.png?ver=0.1">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="msapplication-config" content="./assets/favicon/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">
+
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700&display=swap&subset=cyrillic-ext" rel="stylesheet">
+	<link rel="stylesheet" href="./assets/home.css?v=2.4.1">
+	<link href='./modules/css/intlTelInput.css' rel='stylesheet' />
+	<script src="./modules/js/jquery.1.11.3.min.js" async></script>
+
+<!-- Global site tag (gtag.js) - Google Ads: 515402301 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-515402301"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-515402301');
+</script>
+
+<!-- Event snippet for Регистрация conversion page -->
+<script>
+  gtag('event', 'conversion', {'send_to': 'AW-515402301/ZnfjCNWez-QBEL3U4fUB'});
+</script>
+</head>
+
+<body>
+<div id="wrapper">
+	<header class="header" itemscope="" itemtype="https://schema.org/WPHeader">
+		<div class="box header__box">
+			<div class="ln-container">
+				<nav id="slow_nav">
+					<ul>
+						<li>
+							<a href="#">PL</a>
+							<ul>
+								<li><a href="./index.html">EN</a></li>
+								<li><a href="./fr.html">FR</a></li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+			</div>
+			<a href="./registration.html" class="header__contact">KONTAKT</a>
+		</div>
+	</header>
+
+	<main class="site-content page-home" data-room="home">
+		<div class="thank-you">
+			<div class="box">
+				<div class="thank-you__block">
+					<img src="./assets/thank-you.svg" alt="Thank You Icon">
+					<p class="gui-h3 gui-text-uppercase"><br>Dziękuję za podanie swoich danych. Skontaktujemy się z Tobą tak szybko, jak to możliwe.<br>
+						W międzyczasie sprawdź swoją skrzynkę e-mail, aby uzyskać dodatkowe informacje.</p>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<footer class="footer" style="background: rgb(2, 29, 47); height: 165px" itemscope="itemscope" itemtype="https://schema.org/WPFooter">
+		<div class="box">
+			<div class="footer__row">
+			</div>
+			<p style="text-align: center;" class="footer__rights gui-color-white">&copy; All rights reserved</p>
+		</div>
+	</footer>
+</div>
+<!-- #wrapper -->
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="./modules/js/intlTelInput.js"></script>
+<div class="eupopup eupopup-bottom"></div>
+<!--eu-cookie-->
+<link rel="stylesheet" type="text/css" href="./css/jquery-eu-cookie-law-popup.css"/>
+<script src="./js/jquery-eu-cookie-law-popup.js"></script>
+<!--eu-cookie-->
+<script>
+	$(document).ready(function (e) {
+		var form = $('.forms');
+		var telInput = document.querySelector(".telInput");
+		var orderCountry = "";
+		var countryNameInput = $('input[name="countryName"]');
+		var countryName;
+
+		function setSelectedCountryData(countryCodeSelector, phoneCountrySelector, instanceSelector, nodeSelector) {
+			countryCodeSelector.val(instanceSelector.getSelectedCountryData().dialCode);
+			phoneCountrySelector.val(instanceSelector.getSelectedCountryData().iso2);
+
+			countryName = instanceSelector.getSelectedCountryData().name;
+			if(countryName.includes('(')){
+				countryName = countryName.slice(0,countryName.indexOf('(') - 1);
+			}
+			countryNameInput.val(countryName);
+			nodeSelector.addEventListener("countrychange", function () {
+				countryCodeSelector.val(instanceSelector.getSelectedCountryData().dialCode);
+				phoneCountrySelector.val(instanceSelector.getSelectedCountryData().iso2);
+
+				countryName = instanceSelector.getSelectedCountryData().name;
+				if(countryName.includes('(')){
+					countryName = countryName.slice(0,countryName.indexOf('(') - 1);
+				}
+				countryNameInput.val(countryName);
+			});
+		}
+
+		function initTel(node, countryCode, phoneCountry) {
+			if (!node) {
+				return false
+			}
+
+			var instance = intlTelInput(node, {
+				initialCountry: orderCountry,
+				hiddenInput: "phone",
+				autoHideDialCode: "true",
+				autoPlaceholder: "aggressive",
+				separateDialCode: "false", //"true",
+				preferredCountries: [orderCountry, "it", "gb", "se", "fi", "is", "no", "dk", "nl", "de", "ch", "at", "sg", "nz", "my", "ie", "kr", "gr", "ee", "ru"],
+				utilsScript: "./modules/js/utils.js"
+			});
+
+			setSelectedCountryData(countryCode, phoneCountry, instance, node);
+
+			return instance
+		}
+
+		$.ajax({
+			method: "POST",
+			url: "ip2location/order.php",
+			data: "",
+			async: true,
+			dataType: "json",
+			error: function (e) {
+				console.log('bad request ip2location');
+			},
+			success: function (e) {
+				orderCountry = e['code'].toLowerCase();
+				console.log('orderCountry', orderCountry);
+				window['iti'] = initTel(telInput, $('#formShort input[name="phoneCountryCode"]'), $('#formShort input[name="phoneCountry"]'))
+			}
+		});
+	});
+</script>
+<script src="./modules/js/form.js?v=2.4.0"></script>
+</body>
+
+</html
